@@ -35,7 +35,6 @@ namespace Ejercicios09Punto04.Windows
                 {
                     _circunferencia=new Circunferencia();
                 }
-
                 _circunferencia.Radio = int.Parse(RadioTextBox.Text);
                 DialogResult = DialogResult.OK;
             }

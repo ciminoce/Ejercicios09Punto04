@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Ejercicios09Punto4.Bl;
 
 namespace Ejercicios09Punto.Dl
@@ -6,19 +9,50 @@ namespace Ejercicios09Punto.Dl
     public class RepositorioCircuferencias
     {
         public List<Circunferencia> ListaCircunferencias { get; set; } = new List<Circunferencia>();
-
+        public bool EstaModificado { get; set; } = false;
+        private readonly string _archivo = Environment.CurrentDirectory + @"\Circunferencias.Csv";
         public RepositorioCircuferencias()
         {
-            var circ1 = new Circunferencia(12);
-            var circ2 = new Circunferencia(20);
-            var circ3 = new Circunferencia(2);
-            var circ4 = new Circunferencia(11);
-            var circ5 = new Circunferencia(29);
-            Agregar(circ1);
-            Agregar(circ2);
-            Agregar(circ3);
-            Agregar(circ4);
-            Agregar(circ5);
+            LeerDatosDelArchivo();
+        }
+
+        private void LeerDatosDelArchivo()
+        {
+            if (!File.Exists(_archivo))
+            {
+                return;
+            }
+            StreamReader lector=new StreamReader(_archivo);
+            while (!lector.EndOfStream)
+            {
+                string linea = lector.ReadLine();
+                Circunferencia circunferencia = ConstruirCircunferencia(linea);
+                ListaCircunferencias.Add(circunferencia);
+            }
+            lector.Close();
+        }
+
+        private Circunferencia ConstruirCircunferencia(string linea)
+        {
+            return new Circunferencia
+            {
+                Radio = int.Parse(linea)
+            };
+        }
+
+        public void GuardarDatosEnArchivo()
+        {
+            StreamWriter escritor = new StreamWriter(_archivo);
+            foreach (var circunferencia in ListaCircunferencias)
+            {
+                string linea = ConstruirLinea(circunferencia);
+                escritor.WriteLine(linea);
+            }
+            escritor.Close();
+        }
+        private string ConstruirLinea(Circunferencia circunferencia)
+        {
+            return $"{circunferencia.Radio}";
         }
 
         public bool ExisteCircunferencia(Circunferencia circunferencia)
@@ -28,10 +62,13 @@ namespace Ejercicios09Punto.Dl
         public void Agregar(Circunferencia circunferencia)
         {
             ListaCircunferencias.Add(circunferencia);
+            EstaModificado = true;
         }
 
         public void Borrar(Circunferencia circunferencia)
         {
+            ListaCircunferencias.Remove(circunferencia);
+            EstaModificado = true;
 
         }
 
@@ -48,6 +85,16 @@ namespace Ejercicios09Punto.Dl
         public int GetCantidad()
         {
             return ListaCircunferencias.Count;
+        }
+
+        public List<Circunferencia> GetListaOrdenada()
+        {
+            return ListaCircunferencias.OrderBy(c => c.Radio).ToList();
+        }
+
+        public List<Circunferencia> GetListaFiltrada(int valorRadio)
+        {
+            return ListaCircunferencias.Where(c => c.Radio >= valorRadio).ToList();
         }
     }
 }

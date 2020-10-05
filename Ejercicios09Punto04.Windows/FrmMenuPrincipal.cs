@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ejercicios09Punto.Dl;
 using Ejercicios09Punto4.Bl;
@@ -24,12 +18,19 @@ namespace Ejercicios09Punto04.Windows
         private void FrmMenuPrincipal_Load(object sender, EventArgs e)
         {
             _repositorio=new RepositorioCircuferencias();
-            _lista = _repositorio.GetLista();
+            
             var cantidad = _repositorio.GetCantidad();
-            MostrarListaEnGrilla();
+            ActualizarGrilla();
             RegistrosTextBox.Enabled = false;
             RegistrosTextBox.Text = cantidad.ToString();
 
+        }
+
+        private void ActualizarGrilla()
+        {
+            _lista = _repositorio.GetLista();
+            MostrarListaEnGrilla();
+            
         }
 
         private void MostrarListaEnGrilla()
@@ -66,6 +67,12 @@ namespace Ejercicios09Punto04.Windows
 
         private void SalirToolStripButton_Click(object sender, EventArgs e)
         {
+
+            if (_repositorio.EstaModificado)
+            {
+                _repositorio.GuardarDatosEnArchivo();
+
+            } 
             Application.Exit();
         }
 
@@ -83,6 +90,8 @@ namespace Ejercicios09Punto04.Windows
                     DataGridViewRow r = ConstruirFila();
                     SetearFila(r, circunferencia);
                     AgregarFila(r);
+
+                    RegistrosTextBox.Text = _repositorio.GetCantidad().ToString();
                     MessageBox.Show("Registro agregado", "Mensaje",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -112,6 +121,7 @@ namespace Ejercicios09Punto04.Windows
             {
                 _repositorio.Borrar(circunferencia);
                 DatosDataGridView.Rows.Remove(r);
+                RegistrosTextBox.Text = _repositorio.GetCantidad().ToString();
                 MessageBox.Show("Registro Borrado", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -125,6 +135,8 @@ namespace Ejercicios09Punto04.Windows
 
             DataGridViewRow r = DatosDataGridView.SelectedRows[0];
             Circunferencia circunferencia = r.Tag as Circunferencia;
+            Circunferencia cirAuxiliar=circunferencia.Clone() as Circunferencia;
+            
             FrmCircunferenciaAE frm=new FrmCircunferenciaAE();
             frm.Text = "Edición de Circunferencia";
             frm.SetCircunferencia(circunferencia);
@@ -134,6 +146,7 @@ namespace Ejercicios09Punto04.Windows
                 circunferencia = frm.GetCircunferencia();
                 if (!_repositorio.ExisteCircunferencia(circunferencia))
                 {
+                    _repositorio.EstaModificado = true;
                     SetearFila(r, circunferencia);
                     MessageBox.Show("Registro editado", "Mensaje", MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
@@ -141,11 +154,51 @@ namespace Ejercicios09Punto04.Windows
                 }
                 else
                 {
+                    SetearFila(r, cirAuxiliar);
                     MessageBox.Show("Registro existente", "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
             }
+        }
+
+        private void MenuPrincipalToolStrip_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OrdenarToolStripButton_Click(object sender, EventArgs e)
+        {
+            _lista = _repositorio.GetListaOrdenada();
+            MostrarListaEnGrilla();
+        }
+
+        private void ActualizarToolStripButton_Click(object sender, EventArgs e)
+        {
+           ActualizarGrilla();
+        }
+
+        private void FiltrarToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(ValorRadioToolStripTextBox.Text))
+            {
+                return;
+            }
+
+            if (!int.TryParse(ValorRadioToolStripTextBox.Text, out int radio))
+            {
+                MessageBox.Show("No se pudo convertir a entero"
+                                + Environment.NewLine
+                                + "No se puede aplicar el filtro", "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                ValorRadioToolStripTextBox.Clear();
+                ValorRadioToolStripTextBox.Focus();
+            }
+
+            _lista = _repositorio.GetListaFiltrada(radio);
+            MostrarListaEnGrilla();
+            ValorRadioToolStripTextBox.Clear();
         }
     }
 }

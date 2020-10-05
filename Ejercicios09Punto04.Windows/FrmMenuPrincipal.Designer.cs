@@ -36,7 +36,8 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ActualizarToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.FiltrarToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.ValorRadioToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
+            this.OrdenarToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.SalirToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.FooterPanel = new System.Windows.Forms.Panel();
@@ -62,7 +63,8 @@
             this.toolStripSeparator1,
             this.ActualizarToolStripButton,
             this.FiltrarToolStripButton,
-            this.toolStripButton6,
+            this.ValorRadioToolStripTextBox,
+            this.OrdenarToolStripButton,
             this.toolStripSeparator2,
             this.SalirToolStripButton});
             this.MenuPrincipalToolStrip.Location = new System.Drawing.Point(0, 0);
@@ -70,6 +72,7 @@
             this.MenuPrincipalToolStrip.Size = new System.Drawing.Size(912, 58);
             this.MenuPrincipalToolStrip.TabIndex = 0;
             this.MenuPrincipalToolStrip.Text = "toolStrip1";
+            this.MenuPrincipalToolStrip.Click += new System.EventHandler(this.MenuPrincipalToolStrip_Click);
             // 
             // NuevoToolStripButton
             // 
@@ -118,6 +121,7 @@
             this.ActualizarToolStripButton.Size = new System.Drawing.Size(63, 55);
             this.ActualizarToolStripButton.Text = "Actualizar";
             this.ActualizarToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.ActualizarToolStripButton.Click += new System.EventHandler(this.ActualizarToolStripButton_Click);
             // 
             // FiltrarToolStripButton
             // 
@@ -128,16 +132,23 @@
             this.FiltrarToolStripButton.Size = new System.Drawing.Size(41, 55);
             this.FiltrarToolStripButton.Text = "Filtrar";
             this.FiltrarToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.FiltrarToolStripButton.Click += new System.EventHandler(this.FiltrarToolStripButton_Click);
             // 
-            // toolStripButton6
+            // ValorRadioToolStripTextBox
             // 
-            this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
-            this.toolStripButton6.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(74, 55);
-            this.toolStripButton6.Text = "Quitar Filtro";
-            this.toolStripButton6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.ValorRadioToolStripTextBox.Name = "ValorRadioToolStripTextBox";
+            this.ValorRadioToolStripTextBox.Size = new System.Drawing.Size(100, 58);
+            // 
+            // OrdenarToolStripButton
+            // 
+            this.OrdenarToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("OrdenarToolStripButton.Image")));
+            this.OrdenarToolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.OrdenarToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.OrdenarToolStripButton.Name = "OrdenarToolStripButton";
+            this.OrdenarToolStripButton.Size = new System.Drawing.Size(54, 55);
+            this.OrdenarToolStripButton.Text = "Ordenar";
+            this.OrdenarToolStripButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.OrdenarToolStripButton.Click += new System.EventHandler(this.OrdenarToolStripButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -262,7 +273,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ToolStripButton toolStripButton5;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStripButton OrdenarToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton7;
         private System.Windows.Forms.ToolStripButton BorrarToolStripButton;
@@ -278,6 +289,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colRadio;
         private System.Windows.Forms.DataGridViewTextBoxColumn colPerimetro;
         private System.Windows.Forms.DataGridViewTextBoxColumn colArea;
+        private System.Windows.Forms.ToolStripTextBox ValorRadioToolStripTextBox;
     }
 }
 

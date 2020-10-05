@@ -2,7 +2,7 @@
 
 namespace Ejercicios09Punto4.Bl
 {
-    public class Circunferencia
+    public class Circunferencia:ICloneable
     {
         public int Radio { get; set; }
 
@@ -35,6 +35,11 @@ namespace Ejercicios09Punto4.Bl
         public override int GetHashCode()
         {
             return this.Radio.GetHashCode();
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();//hace una copia superficial del objeto
         }
     }
 }
