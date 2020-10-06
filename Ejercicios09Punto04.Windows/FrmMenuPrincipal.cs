@@ -139,13 +139,14 @@ namespace Ejercicios09Punto04.Windows
             
             FrmCircunferenciaAE frm=new FrmCircunferenciaAE();
             frm.Text = "Edición de Circunferencia";
-            frm.SetCircunferencia(circunferencia);
+            frm.SetCircunferencia(cirAuxiliar);
             DialogResult dr = frm.ShowDialog(this);
             if (dr==DialogResult.OK)
             {
-                circunferencia = frm.GetCircunferencia();
-                if (!_repositorio.ExisteCircunferencia(circunferencia))
+                cirAuxiliar = frm.GetCircunferencia();
+                if (!_repositorio.ExisteCircunferencia(cirAuxiliar))
                 {
+                    circunferencia = cirAuxiliar;
                     _repositorio.EstaModificado = true;
                     SetearFila(r, circunferencia);
                     MessageBox.Show("Registro editado", "Mensaje", MessageBoxButtons.OK,
@@ -154,7 +155,7 @@ namespace Ejercicios09Punto04.Windows
                 }
                 else
                 {
-                    SetearFila(r, cirAuxiliar);
+                    SetearFila(r, circunferencia);
                     MessageBox.Show("Registro existente", "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
 
